@@ -37,9 +37,9 @@ export default function PostsList() {
     console.log("Updated postData:", postData);
   }, [postData]);
   return (
-    <div>
+    <div className="bg-slate-50">
       {loading ? (
-        <div className="">Loading Posts...</div>
+        <h1 className="text-3xl font-bold underline">Loading Posts...</h1>
       ) : error ? (
         <div>Error: {error.message}</div>
       ) : !postData || postData.length === 0 ? (
