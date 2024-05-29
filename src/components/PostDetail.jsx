@@ -40,7 +40,7 @@ export default function PostDetail({ selectedPost, setSelectedPost }) {
   }, [postDetail]);
 
   return (
-    <div className="bg-slate-50">
+    <div className="bg-slate-50 p-8 md:p-24 lg:p-32">
       {loading ? (
         <h1 className="text-3xl font-bold">Loading Post...</h1>
       ) : error ? (
@@ -48,62 +48,77 @@ export default function PostDetail({ selectedPost, setSelectedPost }) {
       ) : !postDetail || postDetail.length === 0 ? (
         <div>Post Not Found</div>
       ) : (
-        <div>
-          <div className="bg-gray-900 rounded-lg shadow-lg overflow-hidden mb-6 hover:shadow-xl transition duration-300">
-            <div className="p-4">
-              <div className="mb-3">
-                <ul className="flex flex-wrap text-xs font-medium -m-1">
-                  <li className="m-1">
-                    <div className="inline-flex text-center text-gray-100 py-1 px-3 rounded-full bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out">
-                      {postDetail.post.category ? (
-                        <p>{postDetail.post.category}</p>
-                      ) : (
-                        <p>No Category</p>
-                      )}
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <h3 className="text-xl lg:text-2xl text-gray-300 font-bold leading-tight mb-2">
-                <a
-                  href="#0"
-                  className="hover:text-gray-100 transition duration-150 ease-in-out"
-                >
-                  {postDetail.post.title}
-                </a>
-              </h3>
-              <p className="text-gray-400">{postDetail.post.text}...</p>
-              <footer className="flex items-center mt-4">
-                <div>
-                  {postDetail.post.author ? (
-                    <span className="text-gray-300">
-                      {postDetail.post.author.username}
-                    </span>
-                  ) : (
-                    <span className="text-gray-300">Anonymous</span>
-                  )}
-                  <span className="text-gray-500">
-                    {" "}
-                    {/* - {format(postDetail.date, "MMM d, yyyy")} */}
+        <div >
+          {/* Post Container */}
+          <div className="mb-16 md:mb-20 lg:mb-28 border-b-2">
+            {/* Category Badge */}
+            <div className="mb-3">
+              <ul className="flex flex-wrap text-xs font-medium -m-1">
+                <li className="m-1">
+                  <div className="inline-flex text-center text-gray-100 py-1 px-3 rounded-full bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out">
+                    {postDetail.post.category ? (
+                      <p>{postDetail.post.category}</p>
+                    ) : (
+                      <p>No Category</p>
+                    )}
+                  </div>
+                </li>
+              </ul>
+            </div>
+            {/* Post Title */}
+            <h3 className="text-xl lg:text-2xl text-gray-800 font-bold leading-tight mb-2 text-left">
+                {postDetail.post.title}
+            </h3>
+            <div className="flex items-center mt-4">
+              {/* Author and Date */}
+              <div>
+                {postDetail.post.author ? (
+                  <span className="text-gray-300">
+                    {postDetail.post.author.username}
                   </span>
-                </div>
-              </footer>
-            </div>
-          </div>
-          {postDetail.comments.map((comment) => (
-            <div
-              key={comment._id}
-              className="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg"
-            >
-              <div className="flex flex-col w-full">
-                <p className="relative text-xl whitespace-nowrap truncate overflow-hidden">
-                  {comment.author.username ? (comment.author.username) : "Anonymous"}
-                </p>
-                <p className="text-gray-400 text-sm">{format(post.date, "MMM d, yyyy")}</p>
+                ) : (
+                  <span className="text-gray-300">Anonymous</span>
+                )}
+                <span className="text-gray-500">
+                  {" "}
+                  {/* Format post date */}-{" "}
+                  {format(new Date(postDetail.post.date), "MMM d, yyyy")}
+                </span>
               </div>
-              <p className="-mt-4 text-gray-500">{comment.text}</p>
             </div>
-          ))}
+            {/* Post Content */}
+            <p className="text-gray-700 text-xl">{postDetail.post.text}</p>
+          </div>
+
+          {/* Comments Section */}
+          <section className="mx-16 md:mx-32 lg:mx-48">
+            <h4 className="text-slate-700 text-l mb-4">Comments</h4>
+            {postDetail.comments && postDetail.comments.length > 0 ? (
+              postDetail.comments.map((comment) => (
+                <div
+                  key={comment._id}
+                  className="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg"
+                >
+                  <div className="flex flex-col w-full">
+                    {/* Comment Author */}
+                    <p className="relative text-xl whitespace-nowrap truncate overflow-hidden">
+                      {comment.author.username
+                        ? comment.author.username
+                        : "Anonymous"}
+                    </p>
+                    {/* Comment Date */}
+                    <p className="text-gray-400 text-sm">
+                      {format(new Date(comment.date), "d MMMM yyyy, 'at' p")}
+                    </p>
+                  </div>
+                  {/* Comment Text */}
+                  <p className="-mt-4 text-gray-500">{comment.text}</p>
+                </div>
+              ))
+            ) : (
+              <h5>No comments...</h5>
+            )}
+          </section>
         </div>
       )}
       <button onClick={() => setSelectedPost(null)}>Close</button>
