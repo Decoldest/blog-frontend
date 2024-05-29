@@ -21,7 +21,6 @@ export default function PostsList() {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data);
 
         setPostData(data);
       } catch (error) {
@@ -33,9 +32,6 @@ export default function PostsList() {
     }
     getPostData();
   }, []);
-  useEffect(() => {
-    console.log("Updated postData:", postData);
-  }, [postData]);
   return (
     <div className="bg-slate-50">
       {loading ? (

@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "./AuthContext";
 
 export default function LogIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -15,7 +17,6 @@ export default function LogIn() {
       password,
     }).then((response) => {
       handleLoginResponse(response);
-      saveDataToLocalStorage(response);
     });
   }
 
@@ -39,14 +40,9 @@ export default function LogIn() {
     if (response.info && response.info.message) {
       setError(response.info.message);
     } else {
-      saveDataToLocalStorage(response);
+      login(response.token, response.user.username);
       navigate("/");
     }
-  }
-
-  function saveDataToLocalStorage(response) {
-    localStorage.setItem("token", response.token);
-    localStorage.setItem("user", response.user.username);
   }
 
   return (

@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { format } from "date-fns";
+import CommentForm from "./CommentForm";
+import AuthContext from "./AuthContext";
 
 PostDetail.propTypes = {
   selectedPost: PropTypes.object,
@@ -11,6 +13,8 @@ export default function PostDetail({ selectedPost, setSelectedPost }) {
   const [postDetail, setPostDetail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const authUser = useContext(AuthContext);
+
   useEffect(() => {
     async function getPostDetail() {
       try {
@@ -35,9 +39,15 @@ export default function PostDetail({ selectedPost, setSelectedPost }) {
     getPostDetail();
   }, [selectedPost._id]);
 
-  useEffect(() => {
-    console.log("Updated postDetail:", postDetail);
-  }, [postDetail]);
+  const addComment = (newComment) => {
+    if (postDetail) {
+      const updatedComments = [...postDetail.comments, newComment];
+      setPostDetail({
+        ...postDetail,
+        comments: updatedComments,
+      });
+    }
+  };
 
   return (
     <div className="bg-slate-50 p-8 md:p-24 lg:p-32">
@@ -48,9 +58,9 @@ export default function PostDetail({ selectedPost, setSelectedPost }) {
       ) : !postDetail || postDetail.length === 0 ? (
         <div>Post Not Found</div>
       ) : (
-        <div >
+        <div>
           {/* Post Container */}
-          <div className="mb-16 md:mb-20 lg:mb-28 border-b-2">
+          <div className="mb-8 md:mb-10 lg:mb-14 border-b-2">
             {/* Category Badge */}
             <div className="mb-3">
               <ul className="flex flex-wrap text-xs font-medium -m-1">
@@ -67,17 +77,17 @@ export default function PostDetail({ selectedPost, setSelectedPost }) {
             </div>
             {/* Post Title */}
             <h3 className="text-xl lg:text-2xl text-gray-800 font-bold leading-tight mb-2 text-left">
-                {postDetail.post.title}
+              {postDetail.post.title}
             </h3>
             <div className="flex items-center mt-4">
               {/* Author and Date */}
               <div>
                 {postDetail.post.author ? (
-                  <span className="text-gray-300">
+                  <span className="text-gray-400">
                     {postDetail.post.author.username}
                   </span>
                 ) : (
-                  <span className="text-gray-300">Anonymous</span>
+                  <span className="text-gray-400">Anonymous</span>
                 )}
                 <span className="text-gray-500">
                   {" "}
@@ -87,7 +97,9 @@ export default function PostDetail({ selectedPost, setSelectedPost }) {
               </div>
             </div>
             {/* Post Content */}
-            <p className="text-gray-700 text-xl">{postDetail.post.text}</p>
+            <p className="text-gray-700 text-xl py-8 md:mb-10 lg:mb-12">
+              {postDetail.post.text}
+            </p>
           </div>
 
           {/* Comments Section */}
@@ -117,6 +129,12 @@ export default function PostDetail({ selectedPost, setSelectedPost }) {
               ))
             ) : (
               <h5>No comments...</h5>
+            )}
+            {authUser.auth.username && (
+              <CommentForm
+                postID={postDetail.post._id}
+                addComment={addComment}
+               />
             )}
           </section>
         </div>
