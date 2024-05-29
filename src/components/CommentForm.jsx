@@ -47,7 +47,6 @@ export default function CommentForm({ postID, addComment }) {
         ...response.comment,
         author: { username: authUser.auth.username },
       };
-      console.log(newComment);
       addComment(newComment);
       setCommentText("");
     }
