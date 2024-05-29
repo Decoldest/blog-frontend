@@ -58,6 +58,18 @@ export default function PostDetail({ selectedPost, setSelectedPost }) {
     }
   };
 
+  const editComment = (editedComment, commentID) => {
+    if (postDetail) {
+      const updatedComments = postDetail.comments.map((comment) => {
+        if (comment._id === commentID) {
+          return { ...comment, ...editedComment };
+        }
+        return comment;
+      });
+      setPostDetail({ ...postDetail, comments: updatedComments });
+    }
+  };
+
   return (
     <div className="bg-slate-50 p-8 md:p-24 lg:p-32">
       {loading ? (
@@ -117,6 +129,7 @@ export default function PostDetail({ selectedPost, setSelectedPost }) {
             post={postDetail.post}
             addComment={addComment}
             deleteComment={deleteComment}
+            editComment={editComment}
           />
         </div>
       )}
