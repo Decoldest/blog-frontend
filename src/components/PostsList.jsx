@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import PostPreview from "./PostPreview";
 import PostDetail from "./PostDetail";
+import { useNavigate } from "react-router-dom";
 
 export default function PostsList() {
   const [postData, setPostData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getPostData() {
@@ -32,6 +34,10 @@ export default function PostsList() {
     }
     getPostData();
   }, []);
+
+  const handlePostClick = (post) => {
+    navigate(`/posts/${post._id}`);
+  };
   return (
     <div className="bg-slate-50">
       {loading ? (
@@ -40,13 +46,8 @@ export default function PostsList() {
         <div>Error: {error.message}</div>
       ) : !postData || postData.length === 0 ? (
         <div>No posts available</div>
-      ) : selectedPost ? (
-        <PostDetail
-          selectedPost={selectedPost}
-          setSelectedPost={setSelectedPost}
-        />
       ) : (
-        <PostPreview postData={postData} setSelectedPost={setSelectedPost} />
+        <PostPreview postData={postData} setSelectedPost={setSelectedPost} handlePostClick={handlePostClick}/>
       )}
     </div>
   );

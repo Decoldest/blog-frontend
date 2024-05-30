@@ -5,6 +5,7 @@ import SignUp from "./components/SignUp";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./components/AuthContext";
+import PostDetail from "./components/PostDetail";
 
 export default function App() {
   return (
@@ -13,7 +14,8 @@ export default function App() {
         <BrowserRouter>
           <Navbar />
           <Routes>
-            <Route path="/" element={<PostList />} />
+            <Route exact path="/" element={<PostList />} />
+            <Route path="/posts/:id" element={<PostDetail />} />
             <Route path="/log-in" element={<LogIn />} />
             <Route path="/sign-up" element={<SignUp />} />
           </Routes>
@@ -22,5 +24,3 @@ export default function App() {
     </>
   );
 }
-
-

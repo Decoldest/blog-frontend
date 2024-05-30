@@ -2,21 +2,25 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import Comments from "./Comments";
+import { useNavigate, useParams } from "react-router-dom";
 
 PostDetail.propTypes = {
   selectedPost: PropTypes.object,
   setSelectedPost: PropTypes.func,
 };
 
-export default function PostDetail({ selectedPost, setSelectedPost }) {
+export default function PostDetail() {
   const [postDetail, setPostDetail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   useEffect(() => {
     async function getPostDetail() {
       try {
         const response = await fetch(
-          `https://blog-api-ryanwong.fly.dev/posts/${selectedPost._id}`,
+          `https://blog-api-ryanwong.fly.dev/posts/${id}`,
           {
             mode: "cors",
           },
@@ -34,7 +38,7 @@ export default function PostDetail({ selectedPost, setSelectedPost }) {
       }
     }
     getPostDetail();
-  }, [selectedPost._id]);
+  }, [id]);
 
   const addComment = (newComment) => {
     if (postDetail) {
@@ -133,7 +137,7 @@ export default function PostDetail({ selectedPost, setSelectedPost }) {
           />
         </div>
       )}
-      <button onClick={() => setSelectedPost(null)}>Close</button>
+      <button onClick={() => navigate(-1)}>Close</button>
     </div>
   );
 }

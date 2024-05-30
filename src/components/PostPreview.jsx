@@ -3,10 +3,13 @@ import { format } from "date-fns";
 
 PostPreview.propTypes = {
   postData: PropTypes.array,
-  setSelectedPost: PropTypes.func,
+  handlePostClick: PropTypes.func,
 };
 
-export default function PostPreview({ postData, setSelectedPost }) {
+export default function PostPreview({
+  postData,
+  handlePostClick,
+}) {
   const PREVIEW_LENGTH = 100;
 
   return (
@@ -15,7 +18,7 @@ export default function PostPreview({ postData, setSelectedPost }) {
         postData.map((post) => (
           <div
             key={post._id}
-            onClick={() => setSelectedPost(post)}
+            onClick={() => handlePostClick(post)}
             className="bg-gray-900 rounded-lg shadow-lg overflow-hidden mb-6 hover:shadow-xl transition duration-300"
           >
             <img
@@ -39,7 +42,7 @@ export default function PostPreview({ postData, setSelectedPost }) {
               </div>
               <h3 className="text-xl lg:text-2xl text-gray-300 font-bold leading-tight mb-2">
                 <a
-                  href="#"
+                  href=""
                   className="hover:text-gray-100 transition duration-150 ease-in-out"
                 >
                   {post.title}
