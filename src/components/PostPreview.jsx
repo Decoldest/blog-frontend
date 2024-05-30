@@ -6,10 +6,7 @@ PostPreview.propTypes = {
   handlePostClick: PropTypes.func,
 };
 
-export default function PostPreview({
-  postData,
-  handlePostClick,
-}) {
+export default function PostPreview({ postData, handlePostClick }) {
   const PREVIEW_LENGTH = 100;
 
   return (
@@ -18,7 +15,9 @@ export default function PostPreview({
         postData.map((post) => (
           <div
             key={post._id}
-            onClick={() => handlePostClick(post)}
+            onClick={() => {
+              handlePostClick(post);
+            }}
             className="bg-gray-900 rounded-lg shadow-lg overflow-hidden mb-6 hover:shadow-xl transition duration-300"
           >
             <img

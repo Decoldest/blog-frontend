@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "./AuthContext";
+import icon from "../assets/blog.svg";
 
 export default function Navbar() {
   const authUser = useContext(AuthContext);
@@ -12,14 +13,10 @@ export default function Navbar() {
 
   return (
     <nav className="bg-gray-800 p-4">
-      <div className="container mx-auto flex justify-between items-center">
+      <div className="container mx-auto flex justify-between items-center px-10">
         <a href="/" className="text-white text-lg font-bold">
-          <img
-            src="path-to-your-logo.png"
-            alt="Logo"
-            className="h-8 inline-block mr-2"
-          />
-          Home
+          <img src={icon} alt="Logo" className="h-8 inline-block mr-2" />
+          Blog
         </a>
 
         {authUser.auth.username ? (
