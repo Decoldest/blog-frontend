@@ -195,8 +195,12 @@ export default function Comments({
       ) : (
         <h5>No comments...</h5>
       )}
-      {authUser.auth.username && (
+      {authUser.auth.username ? (
         <CommentForm postID={post._id} addComment={addComment} />
+      ) : (
+        <div className="my-8 p-4 text-gray-700 text-center font-semibold rounded-lg flex items-center justify-center space-x-2">
+          <span>Log in to post a comment</span>
+        </div>
       )}
     </section>
   );

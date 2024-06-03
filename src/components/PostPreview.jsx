@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
 import { format } from "date-fns";
+import postPreviewImage from "../assets/postBackgroundMedium.jpeg";
+import RichText from "./RichText";
 
 PostPreview.propTypes = {
   postData: PropTypes.array,
@@ -22,7 +24,7 @@ export default function PostPreview({ postData, handlePostClick }) {
           >
             <img
               className="w-full h-56 object-cover object-center"
-              src="https://preview.cruip.com/open-pro/images/blog-post-01.jpg"
+              src={postPreviewImage}
               alt="Post Preview"
             />
             <div className="p-4">
@@ -47,9 +49,12 @@ export default function PostPreview({ postData, handlePostClick }) {
                   {post.title}
                 </a>
               </h3>
-              <p className="text-gray-400">
-                {post.text.substring(0, PREVIEW_LENGTH)}...
-              </p>
+              <RichText
+                content={post.text}
+                length={PREVIEW_LENGTH}
+                lightText={true}
+              />
+
               <footer className="flex items-center mt-4">
                 <div>
                   {post.author ? (

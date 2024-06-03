@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import Comments from "./Comments";
 import { useNavigate, useParams } from "react-router-dom";
+import Loading from "./Loading";
+import RichText from "./RichText";
 
 PostDetail.propTypes = {
   selectedPost: PropTypes.object,
@@ -77,7 +79,7 @@ export default function PostDetail() {
   return (
     <div className="bg-slate-50 p-8 md:p-24 lg:p-32">
       {loading ? (
-        <h1 className="text-3xl font-bold">Loading Post...</h1>
+        <Loading text="Post" />
       ) : error ? (
         <div>Error: {error.message}</div>
       ) : !postDetail || postDetail.length === 0 ? (
@@ -122,9 +124,7 @@ export default function PostDetail() {
               </div>
             </div>
             {/* Post Content */}
-            <p className="text-gray-700 text-xl py-8 md:mb-10 lg:mb-12">
-              {postDetail.post.text}
-            </p>
+            <RichText content={postDetail.post.text} />
           </div>
 
           {/* Comments Section */}

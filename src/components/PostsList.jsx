@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PostPreview from "./PostPreview";
 import { useNavigate } from "react-router-dom";
+import Loading from "./Loading";
 
 export default function PostsList() {
   const [postData, setPostData] = useState(null);
@@ -40,7 +41,7 @@ export default function PostsList() {
   return (
     <div className="bg-slate-50">
       {loading ? (
-        <h1 className="text-3xl font-bold underline">Loading Posts...</h1>
+        <Loading text="Posts" />
       ) : error ? (
         <div>Error: {error.message}</div>
       ) : !postData || postData.length === 0 ? (

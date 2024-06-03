@@ -16,7 +16,7 @@ export default function Navbar() {
       <div className="container mx-auto flex justify-between items-center px-10">
         <a href="/" className="text-white text-lg font-bold">
           <img src={icon} alt="Logo" className="h-8 inline-block mr-2" />
-          Blog
+          Bloggy
         </a>
 
         {authUser.auth.username ? (
